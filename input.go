@@ -2,15 +2,15 @@ package tripanel
 
 import (
 	"fmt"
-	"github.com/jroimartin/gocui"
+	"github.com/BellerophonMobile/gocui"
 )
 
 var textpromptchan = make(chan string)
 
-func TextPrompt(title string) (string,error) {
+func TextPrompt(title string) (string, error) {
 
 	var err error
-	
+
 	GUI.Update(func(g *gocui.Gui) error {
 
 		maxX, maxY := GUI.Size()
@@ -27,34 +27,34 @@ func TextPrompt(title string) (string,error) {
 		return err
 
 	})
-	
-	line := <- textpromptchan
 
-	return line,err
+	line := <-textpromptchan
+
+	return line, err
 
 }
 
 func textreceived(g *gocui.Gui, v *gocui.View) error {
 
 	_, cy := v.Cursor()
-	line,_ := v.Line(cy)
-  textpromptchan <- line
-	
+	line, _ := v.Line(cy)
+	textpromptchan <- line
+
 	if err := g.DeleteView("textprompt"); err != nil {
 		return err
 	}
 	if _, err := g.SetCurrentView("cmd"); err != nil {
 		return err
-	}	
+	}
 
 	return nil
 
 }
 
-func SelectionPrompt(title string, options []string) (string,error) {
+func SelectionPrompt(title string, options []string) (string, error) {
 
 	var err error
-	
+
 	GUI.Update(func(g *gocui.Gui) error {
 
 		maxX, maxY := GUI.Size()
@@ -69,10 +69,10 @@ func SelectionPrompt(title string, options []string) (string,error) {
 
 			v.Title = " " + title + " "
 
-			for _,o := range(options) {
+			for _, o := range options {
 				fmt.Fprintln(v, o)
 			}
-			
+
 			if _, err := GUI.SetCurrentView("selectionprompt"); err != nil {
 				return err
 			}
@@ -80,26 +80,26 @@ func SelectionPrompt(title string, options []string) (string,error) {
 		return err
 
 	})
-	
-	line := <- textpromptchan
 
-	return line,err
+	line := <-textpromptchan
+
+	return line, err
 
 }
 
 func selectionreceived(g *gocui.Gui, v *gocui.View) error {
 
 	_, cy := v.Cursor()
-	line,_ := v.Line(cy)
-  textpromptchan <- line
-	
+	line, _ := v.Line(cy)
+	textpromptchan <- line
+
 	if err := g.DeleteView("selectionprompt"); err != nil {
 		return err
 	}
 	if _, err := g.SetCurrentView("cmd"); err != nil {
 		return err
-	}	
+	}
 
 	return nil
-	
+
 }

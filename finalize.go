@@ -7,7 +7,7 @@ func OnQuit(f func()) {
 }
 
 func doquits() {
-	for _,f := range(finalizations) {
+	for _, f := range finalizations {
 		f()
 	}
 }

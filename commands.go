@@ -2,8 +2,8 @@ package tripanel
 
 import (
 	"fmt"
-	"github.com/BellerophonMobile/commandtree"	
-	"github.com/jroimartin/gocui"
+	"github.com/BellerophonMobile/commandtree"
+	"github.com/BellerophonMobile/gocui"
 )
 
 var Commands *commandtree.CommandTree
@@ -13,19 +13,19 @@ func installbuiltincommands(commands *commandtree.CommandTree) error {
 	Commands = commands
 
 	err := Commands.Add(&commandtree.Command{
-		Command: "clear",
+		Command:     "clear",
 		Description: "Clear application data view",
-		Usage: "May stipulate to clear app and/or log views (space separated); defaults to app",
+		Usage:       "May stipulate to clear app and/or log views (space separated); defaults to app",
 		Action: func(args []string) error {
 			if len(args) <= 0 {
 				clear(GUI, Views.App)
 			} else {
-				for _,a := range(args) {
+				for _, a := range args {
 					switch a {
 					case "app":
-						clear(GUI, Views.App)						
+						clear(GUI, Views.App)
 					case "log":
-						clear(GUI, Views.Log)						
+						clear(GUI, Views.Log)
 					default:
 						return fmt.Errorf("No such view '%v'", a)
 					}
@@ -35,19 +35,21 @@ func installbuiltincommands(commands *commandtree.CommandTree) error {
 			return nil
 		},
 	})
-	if err != nil { return err }
-	
+	if err != nil {
+		return err
+	}
+
 	err = Commands.Add(&commandtree.Command{
-		Command: "help",
+		Command:     "help",
 		Description: "Display usage notes",
-		Usage: "May be given command tree for details, or none for top level help",
+		Usage:       "May be given command tree for details, or none for top level help",
 		Action: func(args []string) error {
 			if len(args) <= 0 {
 				DisplayUsage()
 			} else {
-				usage,err := Commands.Help(args)
+				usage, err := Commands.Help(args)
 				if err != nil {
-					if _,ok := err.(commandtree.NoSuchCommandError); ok {
+					if _, ok := err.(commandtree.NoSuchCommandError); ok {
 						fmt.Fprintf(Views.App, "\033[31mNo such command %v, run 'help' for a list\033[0m\n", args)
 						return nil
 					} else {
@@ -59,17 +61,21 @@ func installbuiltincommands(commands *commandtree.CommandTree) error {
 			return nil
 		},
 	})
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	err = Commands.Add(&commandtree.Command{
-		Command: "quit",
+		Command:     "quit",
 		Description: "Quit the application",
 		Action: func([]string) error {
 			return gocui.ErrQuit
 		},
 	})
-	if err != nil { return err }
-	
+	if err != nil {
+		return err
+	}
+
 	return nil
 
 }
