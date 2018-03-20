@@ -97,6 +97,8 @@ func keybindings() error {
 	for _,k := range([]string{"app", "log"}) {
 		setkey(k, gocui.KeyArrowUp, gocui.ModNone, scrollup, "Scroll up and disable autoscroll")
 		setkey(k, gocui.KeyArrowDown, gocui.ModNone, scrolldown, "Scroll down and disable autoscroll")
+		setkey(k, gocui.KeyPgup, gocui.ModNone, pageup, "Page up and disable autoscroll")
+		setkey(k, gocui.KeyPgdn, gocui.ModNone, pagedown, "Page down and disable autoscroll")
 		setkey(k, gocui.KeyHome, gocui.ModNone, home, "Scroll to beginning and disable autoscroll")
 		setkey(k, gocui.KeyEnd, gocui.ModNone, end, "Scroll to end and restore autoscroll")
 		setkey(k, gocui.KeyDelete, gocui.ModNone, clear, "Clear view")

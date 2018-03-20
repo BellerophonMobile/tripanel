@@ -204,6 +204,50 @@ func scrollup(g *gocui.Gui, v *gocui.View) error {
 	return nil
 }
 
+func pagedown(g *gocui.Gui, v *gocui.View) error {
+
+	v.Autoscroll = false
+
+	_, sy := v.Size()
+
+	ox, oy := v.Origin()
+	oy += sy
+
+	my := (v.NumLines() - sy)
+	if oy > my {
+		oy = my
+	}
+	if oy < 0 {
+		oy = 0
+	}
+	
+	if err := v.SetOrigin(ox, oy); err != nil {
+		return err
+	}
+	return nil
+
+}
+
+func pageup(g *gocui.Gui, v *gocui.View) error {
+
+	v.Autoscroll = false
+
+	_, sy := v.Size()
+	
+	ox, oy := v.Origin()
+	oy -= sy
+
+	if oy <= 0 {
+		oy = 0
+	}
+
+	if err := v.SetOrigin(ox, oy); err != nil {
+		return err
+	}
+	
+	return nil
+}
+
 func home(g *gocui.Gui, v *gocui.View) error {
 	v.Autoscroll = false
 	if err := v.SetOrigin(0, 0); err != nil {
