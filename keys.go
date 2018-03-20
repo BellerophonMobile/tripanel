@@ -101,6 +101,7 @@ func keybindings() error {
 		setkey(k, gocui.KeyPgdn, gocui.ModNone, pagedown, "Page down and disable autoscroll")
 		setkey(k, gocui.KeyHome, gocui.ModNone, home, "Scroll to beginning and disable autoscroll")
 		setkey(k, gocui.KeyEnd, gocui.ModNone, end, "Scroll to end and restore autoscroll")
+		setkey(k, 'w', gocui.ModNone, writeview, "Write view to file")		
 		setkey(k, gocui.KeyDelete, gocui.ModNone, clear, "Clear view")
 		setkey(k, gocui.KeySpace, gocui.ModNone, togglemaximized, "Maximize/minimize view")
 	}

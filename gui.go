@@ -1,6 +1,7 @@
 package tripanel
 
 import (
+	"io/ioutil"
 	"fmt"
 	"strings"
 	"github.com/BellerophonMobile/logberry"
@@ -340,6 +341,29 @@ func togglemaximized(g *gocui.Gui, v *gocui.View) error {
 	} else {
 		maximized = "log"
 	}
+	return nil
+}
+
+func writeview(g *gocui.Gui, v *gocui.View) error {
+
+	go func() {
+
+		fn,err := TextPrompt("File?")
+		if err != nil {
+			UError(err)
+			return
+		}
+
+		err = ioutil.WriteFile(fn, []byte(v.Buffer()), 0644)
+		if err != nil {
+			UError(err)
+			return
+		}
+
+		UPrint(fmt.Sprintf("Wrote %v to %v\n", v.Name(), fn))
+
+	}()
+	
 	return nil
 }
 
